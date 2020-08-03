@@ -17,32 +17,32 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                <div class="input-section half-width">           
+                    <input id="givenInput" class="form-control text-center" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                              <div class="button">7</div>
-                              <div class="button">8</div>
-                              <div class="button">9</div>
+                              <div class="button" id="seven" onclick="getInput('seven')">7</div>
+                              <div class="button" id="eight" onclick="getInput('eight')">8</div>
+                              <div class="button" id="nine"  onclick="getInput('nine')">9</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">4</div>
-                              <div class="button">5</div>
-                              <div class="button">6</div>
+                              <div class="button" id="four" onclick="getInput('four')">4</div>
+                              <div class="button" id="five" onclick="getInput('five')">5</div>
+                              <div class="button" id="six"  onclick="getInput('six')">6</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">1</div>
-                              <div class="button">2</div>
-                              <div class="button">3</div>
+                              <div class="button" id="one"   onclick="getInput('one')">1</div>
+                              <div class="button" id="two"   onclick="getInput('two')">2</div>
+                              <div class="button" id="three" onclick="getInput('three')">3</div>
                             </div>
                             <div class="calc-button-row">
                                 <div class="button"><</div>
-                                <div class="button">0</div>
+                                <div class="button" id="zero" onclick="getInput('zero')">0</div>
                                 <div class="button">C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
+                                <button id="check-match" type="submit" class="submit-btn">Submit</button>
                                 <p class="action-left">3 try left</p>
                             </div>
                     </div>
@@ -61,9 +61,46 @@
         function pinGenerator(min, max) {
         const pinNumber = Math.floor(Math.random() * (max - min + 1) ) + min;
         document.getElementById('pin').value = pinNumber;
-        return pinNumber;
+        // return pinNumber;
         }
-        
+
+        // key pad  
+        function getInput(id){
+            const input = document.getElementById(id).innerText;
+            let currentInput = inputValue('givenInput');
+
+            if (currentInput.length<4) {
+                currentInput = currentInput + input;
+                document.getElementById("givenInput").value = currentInput;
+            }
+        }
+
+
+        // checkMatch
+        document.getElementById("check-match").addEventListener("click",function(){
+            const currentInputNumber = parseInt(inputValue('givenInput'));
+            const currentPin = parseInt(inputValue('pin'));
+            if(currentInputNumber == currentPin){
+                // document.getElementById('correct').style.display = "block";
+                displayHiddenMessage('correct');
+            }
+            else{
+                // document.getElementById('wrong').style.display = "block";
+                displayHiddenMessage('wrong');
+            }
+        });
+
+        function inputValue(id){
+            return document.getElementById(id).value;
+        }
+
+        function displayHiddenMessage(id){
+            document.getElementById(id).style.display = "block";
+        }
+
+
+
+
     </script>
     
 </body>
