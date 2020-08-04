@@ -43,7 +43,7 @@
                             </div>
                             <div>
                                 <button id="check-match" type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
+                                <p class="action-left"><span id="try-left">3</span> try left</p>
                             </div>
                     </div>
                 </div>
@@ -92,11 +92,21 @@
         document.getElementById("check-match").addEventListener("click",function(){
             const currentInputNumber = parseInt(inputValue('givenInput'));
             const currentPin = parseInt(inputValue('pin'));
+            let tryLeft = parseInt(document.getElementById("try-left").innerText);
+            
             if(currentInputNumber == currentPin){
                 displayNotification('correct');
+                tryLeft = 3;
+                document.getElementById("try-left").innerText = tryLeft;
             }
             else{
                 displayNotification('wrong');
+                tryLeft -=1;
+                document.getElementById("try-left").innerText = tryLeft;
+                if(tryLeft == 0){
+                    document.getElementById("check-match").disabled = true;
+                    document.getElementById("check-match").style.backgroundColor = "#333333";
+                }
             }
         });
 
@@ -111,7 +121,6 @@
         function hideNotification(){
             document.getElementById('correct').style.display = "none";
             document.getElementById('wrong').style.display = "none";
-
         }
 
     </script>
