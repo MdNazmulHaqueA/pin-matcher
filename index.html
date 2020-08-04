@@ -55,49 +55,63 @@
         </div>
     </div>
 
-<!-- js -->
+<!-- Java Script Codes -->
     <script>
+        //hide the notifications
+        function hideNotifications(){
+            document.getElementById('correct').style.display = "none";
+            document.getElementById('wrong').style.display = "none";
+        }
+        
+        hideNotifications();
 
-        hideNotification();
-
+        // pin generator function 
         function pinGenerator(min, max) {
         const pinNumber = Math.floor(Math.random() * (max - min + 1) ) + min;
         document.getElementById('pin').value = pinNumber;
-        // return pinNumber;
         }
 
-        // key pad  
+        // input values handling
         function getInput(id){
             const input = document.getElementById(id).innerText;
+            //clearing input field and hide the notification area when click on 'C' button
             if(input == "C"){
                 hideNotification();
                 return document.getElementById("givenInput").value = "";
             }
-
+            //removing last digit when click on '<' button
             if(input == "<"){
                 let currentInput = inputValue('givenInput');
                 let updateInput = currentInput.substring(0,currentInput.length-1);
                 return document.getElementById("givenInput").value = updateInput;
             }
-
             let currentInput = inputValue('givenInput');
             if (currentInput.length<4) {
-                currentInput = currentInput + input;
+                currentInput = currentInput + input; //concatenate input digit with current input if current input has less than 4 digits
                 document.getElementById("givenInput").value = currentInput;
             }
         }
 
 
-        // checkMatch
+        // checking pinMatched or not and showing notifications
         document.getElementById("check-match").addEventListener("click",function(){
             const currentInputNumber = parseInt(inputValue('givenInput'));
             const currentPin = parseInt(inputValue('pin'));
             let tryLeft = parseInt(document.getElementById("try-left").innerText);
-            
+
             if(currentInputNumber == currentPin){
                 displayNotification('correct');
                 tryLeft = 3;
                 document.getElementById("try-left").innerText = tryLeft;
+                /*
+                To avoid double notification:   
+                Situation : 1st attempt number did not match, so there's a notification about it.
+                But using '<' user can remove the wrong digits and set the correct digits and hit submit.
+                Then, there will be 2 notifications - 1st that not match and 2nd is about matching one.
+                To avoid the notification about 'dit not match' after been corrected,
+                we need to hide the earlier notification.
+                */
+                document.getElementById("wrong").style.display = "none";
             }
             else{
                 displayNotification('wrong');
@@ -116,11 +130,6 @@
 
         function displayNotification(id){
             document.getElementById(id).style.display = "block";
-        }
-
-        function hideNotification(){
-            document.getElementById('correct').style.display = "none";
-            document.getElementById('wrong').style.display = "none";
         }
 
     </script>
