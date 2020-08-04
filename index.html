@@ -37,9 +37,9 @@
                               <div class="button" id="three" onclick="getInput('three')">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button"><</div>
+                                <div class="button" id="last-digit-remove" onclick="getInput('last-digit-remove')"><</div>
                                 <div class="button" id="zero" onclick="getInput('zero')">0</div>
-                                <div class="button">C</div>
+                                <div class="button" id="clear-input" onclick="getInput('clear-input')">C</div>
                             </div>
                             <div>
                                 <button id="check-match" type="submit" class="submit-btn">Submit</button>
@@ -58,6 +58,8 @@
 <!-- js -->
     <script>
 
+        hideNotification();
+
         function pinGenerator(min, max) {
         const pinNumber = Math.floor(Math.random() * (max - min + 1) ) + min;
         document.getElementById('pin').value = pinNumber;
@@ -67,8 +69,18 @@
         // key pad  
         function getInput(id){
             const input = document.getElementById(id).innerText;
-            let currentInput = inputValue('givenInput');
+            if(input == "C"){
+                hideNotification();
+                return document.getElementById("givenInput").value = "";
+            }
 
+            if(input == "<"){
+                let currentInput = inputValue('givenInput');
+                let updateInput = currentInput.substring(0,currentInput.length-1);
+                return document.getElementById("givenInput").value = updateInput;
+            }
+
+            let currentInput = inputValue('givenInput');
             if (currentInput.length<4) {
                 currentInput = currentInput + input;
                 document.getElementById("givenInput").value = currentInput;
@@ -81,12 +93,10 @@
             const currentInputNumber = parseInt(inputValue('givenInput'));
             const currentPin = parseInt(inputValue('pin'));
             if(currentInputNumber == currentPin){
-                // document.getElementById('correct').style.display = "block";
-                displayHiddenMessage('correct');
+                displayNotification('correct');
             }
             else{
-                // document.getElementById('wrong').style.display = "block";
-                displayHiddenMessage('wrong');
+                displayNotification('wrong');
             }
         });
 
@@ -94,12 +104,15 @@
             return document.getElementById(id).value;
         }
 
-        function displayHiddenMessage(id){
+        function displayNotification(id){
             document.getElementById(id).style.display = "block";
         }
 
+        function hideNotification(){
+            document.getElementById('correct').style.display = "none";
+            document.getElementById('wrong').style.display = "none";
 
-
+        }
 
     </script>
     
