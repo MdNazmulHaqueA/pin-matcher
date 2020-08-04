@@ -62,7 +62,7 @@
             document.getElementById('correct').style.display = "none";
             document.getElementById('wrong').style.display = "none";
         }
-        
+
         hideNotifications();
 
         // pin generator function 
@@ -76,7 +76,7 @@
             const input = document.getElementById(id).innerText;
             //clearing input field and hide the notification area when click on 'C' button
             if(input == "C"){
-                hideNotification();
+                hideNotifications();
                 return document.getElementById("givenInput").value = "";
             }
             //removing last digit when click on '<' button
